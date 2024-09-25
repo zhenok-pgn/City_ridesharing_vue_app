@@ -12,6 +12,6 @@ export default defineComponent({
 
 <template>
   <main>
-    <HereMap />
+    <HereMap :center="{ lat: 56.83061, lng: 53.235242 }" />
   </main>
 </template>
