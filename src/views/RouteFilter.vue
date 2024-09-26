@@ -3,11 +3,15 @@
 <template>
   <div class="greetings">
     <h1 class="green">filter</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
-    </h3>
+    <h6>from</h6>
+    <input type="text" />
+    <h6>to</h6>
+    <input type="text" />
+    <h6>date</h6>
+    <input type="text" />
+    <h6>passengers amount</h6>
+    <input type="text" />
+    <button>apply</button>
   </div>
 </template>
 

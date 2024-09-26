@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import PassengerRoutesView from '../views/PassengerRoutesView.vue'
 import ProfileView from '../views/ProfileView.vue'
 
 const router = createRouter({
@@ -7,16 +7,25 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'for-passenger',
-      component: HomeView
+      name: 'passenger-routes-view',
+      component: PassengerRoutesView
     },
     {
-      path: '/for-driver',
-      name: 'for-driver',
+      path: '/driver-routes-view',
+      name: 'driver-routes-view',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/passenger-routes-item-info/:routeId',
+      name: 'passenger-routes-item-info',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/PassengerRouteItemInfoView.vue'),
+      props: true
     },
     {
       path: '/route-filter',

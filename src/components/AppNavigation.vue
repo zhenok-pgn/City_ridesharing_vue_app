@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <nav>
-      <RouterLink to="for-driver">For driver</RouterLink>
+      <RouterLink to="driver-routes-view">For driver</RouterLink>
       <RouterLink to="/">For passenger</RouterLink>
       <RouterLink to="chats">Chats</RouterLink>
       <RouterLink to="profile">Profile</RouterLink>
