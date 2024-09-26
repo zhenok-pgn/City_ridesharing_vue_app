@@ -62,7 +62,6 @@ export default defineComponent({
       this.map = map
 
       addEventListener('resize', () => map.getViewPort().resize())
-
       // add behavior control
       new H.mapevents.Behavior(new H.mapevents.MapEvents(map))
 
