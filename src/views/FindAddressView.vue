@@ -2,41 +2,53 @@
 import { defineComponent } from 'vue'
 import HereMap from '../components/HereMap.vue'
 
+interface SelectedAddress {
+  title: string
+  position: string
+}
+
 export default defineComponent({
   props: {
     typePage: String
   },
+  emits: {
+    addressSelected(addr: SelectedAddress) {
+      return addr != null
+    }
+  },
   data() {
     return {
       addressTitle: '',
-      position: ''
+      position: '',
+      address: {} as SelectedAddress
     }
   },
   components: {
     HereMap
   },
   methods: {
-    goToRouteFilter() {
-      this.$router.push({ name: 'route-filter' })
+    returnSelectedAddress() {
+      //this.$router.push({ name: 'route-filter' })
+      this.$emit('addressSelected', this.address)
     }
   }
 })
 </script>
 
 <template>
-  <h1 v-if="typePage == 'from'">Откуда</h1>
-  <h1 v-else>Куда</h1>
+  <!-- <h1 v-if="typePage == 'from'">Откуда</h1>
+  <h1 v-else>Куда</h1> -->
+  <slot>sample text</slot>
   <HereMap
     @address-selected="
       (addr) => {
-        addressTitle = addr.title
-        position = addr.position
+        address = addr
       }
     "
   />
   <div>
-    <input type="text" :value="addressTitle" />
-    <button @click="goToRouteFilter">apply</button>
+    <input type="text" :value="address.title" />
+    <button @click="returnSelectedAddress">apply</button>
   </div>
 </template>
 
