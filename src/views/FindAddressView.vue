@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import HereMap from '../components/HereMap.vue'
+import OSM from '../components/OSM.vue'
 
 interface SelectedAddress {
   title: string
@@ -24,7 +25,8 @@ export default defineComponent({
     }
   },
   components: {
-    HereMap
+    HereMap,
+    OSM
   },
   methods: {
     returnSelectedAddress() {
@@ -39,17 +41,19 @@ export default defineComponent({
   <!-- <h1 v-if="typePage == 'from'">Откуда</h1>
   <h1 v-else>Куда</h1> -->
   <slot>sample text</slot>
-  <HereMap
+  <!-- <HereMap
     @address-selected="
       (addr) => {
         address = addr
       }
     "
-  />
+  /> -->
   <div>
     <input type="text" :value="address.title" />
     <button @click="returnSelectedAddress">apply</button>
   </div>
+
+  <OSM />
 </template>
 
 <style></style>
