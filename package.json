@@ -16,8 +16,11 @@
   "dependencies": {
     "@eslint/config-array": "^0.18.0",
     "@eslint/object-schema": "^2.1.4",
+    "@types/leaflet-routing-machine": "^3.2.8",
     "glob": "^11.0.0",
     "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^2.4.0",
+    "leaflet-routing-machine": "^3.2.12",
     "lru-cache": "^11.0.1",
     "rimraf": "^6.0.1",
     "vue": "^3.4.29",
