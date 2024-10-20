@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue'
 import HereMap from '../components/HereMap.vue'
 import OSM from '../components/OSM.vue'
+import SearchAddressDropdown from '@/components/SearchAddressDropdown.vue'
 
 interface SelectedAddress {
   title: string
@@ -26,7 +27,8 @@ export default defineComponent({
   },
   components: {
     HereMap,
-    OSM
+    OSM,
+    SearchAddressDropdown
   },
   methods: {
     returnSelectedAddress() {
@@ -53,6 +55,7 @@ export default defineComponent({
     <button @click="returnSelectedAddress">apply</button>
   </div>
 
+  <SearchAddressDropdown />
   <OSM />
 </template>
 

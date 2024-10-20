@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import LatLngTuple from 'leaflet'
 import 'leaflet-routing-machine'
-import 'leaflet-control-geocoder'
+import geocoder from '@/utils/geocoder'
 
 export default defineComponent({
   name: 'OSM',
@@ -15,6 +15,7 @@ export default defineComponent({
       coryRight: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 
       selectedCoordinates: null
+      //geocoder: null
     }
   },
   async mounted() {
@@ -31,15 +32,6 @@ export default defineComponent({
       }).addTo(map)
 
       this.setUpClickListener(map)
-
-      let geocoder = L.Control.Geocoder.nominatim()
-      geocoder.geocode('ижевск', (resultArray: any) => {
-        if (resultArray.length > 0) {
-          const result = resultArray[0]
-          const latlng = result.center
-          console.log(resultArray)
-        }
-      })
 
       L.Routing.control({
         waypoints: [L.latLng(57.74, 11.94), L.latLng(57.6792, 11.949)],
