@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import PassengerRoutesView from '../views/PassengerRoutesView.vue'
+import PassengerMainPage from '../views/PassangerMainView.vue'
 import ProfileView from '../views/ProfileView.vue'
 
 const router = createRouter({
@@ -7,8 +8,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'passenger-routes-view',
-      component: PassengerRoutesView
+      name: 'passenger-main-page',
+      component: PassengerMainPage
     },
     {
       path: '/driver-routes-view',
@@ -28,12 +29,9 @@ const router = createRouter({
       props: true
     },
     {
-      path: '/route-filter',
-      name: 'route-filter',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/RouteFilter.vue')
+      path: '/search-route',
+      name: 'search-route',
+      component: () => import('../views/SearchRouteView.vue')
     },
     {
       path: '/route-filter/find-address/:typePage',

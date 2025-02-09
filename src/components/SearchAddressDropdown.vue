@@ -1,42 +1,71 @@
+<!--Компонент поиска адреса с выпадающим списком -->
+
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, type PropType } from 'vue'
 import geocoder from '@/utils/geocoder'
+import { type ISelectedAddress } from '@/interfaces/ISelectedAddress'
 
 export default defineComponent({
   name: 'SearchAddressDropdown',
+  props: {
+    modelValue: {
+      type: Object as PropType<ISelectedAddress>,
+      default: () => ({}) as ISelectedAddress
+    },
+    placeholder: {
+      type: String,
+      default: 'Введите адрес'
+    },
+    value: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       query: '',
-      searchResult: [] as { id: number; data: any }[],
+      geocoderSearchResult: [] as { id: number; data: any }[],
       timer: -1
     }
   },
-  async mounted() {},
+  emits: {
+    'update:modelValue'(addr: ISelectedAddress) {
+      return addr != null
+    }
+  },
+  mounted() {
+    if (this.value != null) {
+      this.query = this.value
+    }
+  },
   methods: {
     searchResultClick(selectedId: number) {
-      this.query = this.searchResult[selectedId].data.name
+      const selectedAddress: ISelectedAddress = {
+        properties: this.geocoderSearchResult[selectedId].data.properties,
+        position: this.geocoderSearchResult[selectedId].data.center
+      }
 
-      this.searchResult = []
+      this.query = this.geocoderSearchResult[selectedId].data.name
+      this.$emit('update:modelValue', selectedAddress)
+
+      this.geocoderSearchResult = []
     },
     onkeyup() {
       if (this.timer) {
         clearTimeout(this.timer)
-        this.timer = setTimeout(this.geocodeCallBack, 1000)
-      } else {
-        this.timer = setTimeout(this.geocodeCallBack, 1000)
       }
+      this.timer = setTimeout(this.geocodeCallBack, 1000)
     },
     geocodeCallBack() {
-      if (this.query.length == 0) {
-        this.searchResult = []
+      if (this.query.length === 0) {
+        this.geocoderSearchResult = []
         return
       }
       geocoder.geocode(this.query, (resultArray: any) => {
-        console.log('searched')
-        this.searchResult = []
-        for (let i = 0; i < resultArray.length; i++) {
-          this.searchResult.push({ id: i, data: resultArray[i] })
-        }
+        this.geocoderSearchResult = resultArray.map((result: any, index: number) => ({
+          id: index,
+          data: result
+        }))
       })
     }
   }
@@ -45,10 +74,10 @@ export default defineComponent({
 
 <template>
   <div>
-    <input type="text" placeholder="Search User" v-model="query" @keyup="onkeyup" />
-    <div class="list" v-if="searchResult.length > 0">
-      <ul v-for="adr in searchResult" :key="adr.id">
-        <li @click="searchResultClick(adr.id)">
+    <input type="text" :placeholder="placeholder" v-model="query" @keyup="onkeyup" required />
+    <div class="list" v-if="geocoderSearchResult.length > 0">
+      <ul>
+        <li v-for="adr in geocoderSearchResult" :key="adr.id" @click="searchResultClick(adr.id)">
           {{ adr.data.name }}
         </li>
       </ul>

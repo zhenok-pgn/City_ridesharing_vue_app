@@ -24,7 +24,8 @@
     "lru-cache": "^11.0.1",
     "rimraf": "^6.0.1",
     "vue": "^3.4.29",
-    "vue-router": "^4.3.3"
+    "vue-router": "^4.3.3",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

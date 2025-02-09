@@ -1,23 +1,20 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import AppNavigation from './components/AppNavigation.vue'
 </script>
 
+<!--Общая структура приложения-->
 <template>
   <header>
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
-
-    <RouterView />
+    <AppNavigation />
   </header>
-  <!-- <div class="wrapper">
-
-
-    <nav>
-      <RouterLink to="/for-driver">For driver</RouterLink>
-      <RouterLink to="/">For passenger</RouterLink>
-      <RouterLink to="/chats">Chats</RouterLink>
-      <RouterLink to="/profile">Profile</RouterLink>
-    </nav>
-  </div> -->
+  <main>
+    <RouterView />
+  </main>
+  <footer>
+    <p>&copy; 2025 BlaBlaBus. Все права защищены.</p>
+  </footer>
 </template>
 
 <style scoped>

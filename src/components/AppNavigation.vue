@@ -1,3 +1,5 @@
+<!--Кнопки навигации-->
+
 <template>
   <div class="wrapper">
     <nav>
