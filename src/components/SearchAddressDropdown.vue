@@ -25,7 +25,11 @@ export default defineComponent({
     return {
       query: '',
       geocoderSearchResult: [] as { id: number; data: any }[],
-      timer: -1
+      timer: -1,
+      isMenuOpen: false,
+      rules: {
+        required: (value: string) => !!value || 'Поле обязательно для заполнения'
+      }
     }
   },
   emits: {
@@ -45,10 +49,12 @@ export default defineComponent({
         position: this.geocoderSearchResult[selectedId].data.center
       }
 
+      console.log(this.geocoderSearchResult[selectedId].data)
       this.query = this.geocoderSearchResult[selectedId].data.name
       this.$emit('update:modelValue', selectedAddress)
 
       this.geocoderSearchResult = []
+      this.isMenuOpen = false
     },
     onkeyup() {
       if (this.timer) {
@@ -57,8 +63,10 @@ export default defineComponent({
       this.timer = setTimeout(this.geocodeCallBack, 1000)
     },
     geocodeCallBack() {
+      console.log(this.query)
       if (this.query.length === 0) {
         this.geocoderSearchResult = []
+        this.isMenuOpen = false
         return
       }
       geocoder.geocode(this.query, (resultArray: any) => {
@@ -66,6 +74,8 @@ export default defineComponent({
           id: index,
           data: result
         }))
+        console.log(this.geocoderSearchResult)
+        this.isMenuOpen = true
       })
     }
   }
@@ -73,16 +83,34 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <input type="text" :placeholder="placeholder" v-model="query" @keyup="onkeyup" required />
-    <div class="list" v-if="geocoderSearchResult.length > 0">
-      <ul>
-        <li v-for="adr in geocoderSearchResult" :key="adr.id" @click="searchResultClick(adr.id)">
-          {{ adr.data.name }}
-        </li>
-      </ul>
-    </div>
-  </div>
+  <v-container class="no-padding" fluid>
+    <v-text-field
+      v-model="query"
+      :placeholder="placeholder"
+      @keyup="onkeyup"
+      :rules="[rules.required]"
+      outlined
+      dense
+      required
+      @focus="isMenuOpen = true"
+    ></v-text-field>
+    <v-menu v-model="isMenuOpen" activator="parent" offset-y transition="scale-transition" eager>
+      <v-list>
+        <v-list-item
+          v-for="adr in geocoderSearchResult"
+          :key="adr.id"
+          @click="searchResultClick(adr.id)"
+        >
+          <v-list-item-title>{{ adr.data.name || 'Неизвестный адрес' }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </v-container>
 </template>
 
-<style></style>
+<style scoped>
+.no-padding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+</style>

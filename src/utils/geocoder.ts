@@ -12,4 +12,22 @@ const initializeGeocoder = () => {
 
 const geocoder = initializeGeocoder()
 
+const findByOsmId = async (osmType: string, osmId: string) => {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/lookup?osm_ids=${osmType}${osmId}&format=json&accept-language=ru`
+    )
+
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    throw new Error(`Ошибка: ${error instanceof Error ? error.message : String(error)}`)
+  }
+}
+
 export default geocoder
+export { findByOsmId }
