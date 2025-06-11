@@ -1,0 +1,18 @@
+// структура созвращаемого результата геокодером 
+
+properties: 
+    address : {railway: 'Ipaba', road: 'Rua da Estação', neighbourhood: 'Ipaba do Paraíso', town: 'Santana do Paraíso', municipality: 'Região Geográfica Imediata de Ipatinga', …}
+    addresstype : "railway"
+    boundingbox: (4) [-19.4119899, -19.4019899, -42.4314425, -42.4214425]
+    class: "railway"
+    display_name: "Ipaba, Rua da Estação, Ipaba do Paraíso, Santana do Paraíso, Região Geográfica Imediata de Ipatinga, Região Metropolitana do Vale do Aço, Região Geográfica Intermediária de Ipatinga, Минас-Жерайс, Юго-восточный регион, Бразилия"
+    importance: 0.00005703440909433154
+    lat: "-19.4069899"
+    licence: "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright"
+    lon: "-42.4264425"
+    name: "Ipaba"
+    osm_id: 3485719628
+    osm_type: "node"
+    place_id: 10458564
+    place_rank: 30
+    type: "station"

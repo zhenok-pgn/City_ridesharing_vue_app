@@ -1,87 +1,41 @@
+<!--Общая структура приложения-->
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, watch } from 'vue'
+import { useLoadingStore } from '@/stores/loadingStore'
+
+const loadingStore = useLoadingStore()
+const visible = ref(false)
+let hideTimeout: ReturnType<typeof setTimeout> | null = null
+
+//устранение мерцания загрузки
+watch(
+  () => loadingStore.loading,
+  (newVal) => {
+    if (newVal) {
+      // Показываем сразу
+      if (hideTimeout) clearTimeout(hideTimeout)
+      visible.value = true
+    } else {
+      // Скрываем с задержкой
+      hideTimeout = setTimeout(() => {
+        visible.value = false
+      }, 300) // 300 мс
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/for-driver">For driver</RouterLink>
-        <RouterLink to="/">For passenger</RouterLink>
-        <RouterLink to="/chats">Chats</RouterLink>
-        <RouterLink to="/profile">Profile</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <v-app>
+    <v-overlay
+      v-if="$route.meta.overlayLoading"
+      :model-value="visible"
+      persistent
+      class="align-center justify-center"
+    >
+      <v-progress-circular indeterminate size="64" width="6" color="primary" />
+    </v-overlay>
+    <RouterView />
+  </v-app>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>

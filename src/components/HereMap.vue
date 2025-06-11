@@ -1,10 +1,21 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+
+interface SelectedAddress {
+  title: string
+  position: string
+}
+
 export default defineComponent({
   name: 'HereMap',
   props: {
     center: Object
     // center object { lat: 40.730610, lng: -73.935242 }
+  },
+  emits: {
+    addressSelected(addr: SelectedAddress) {
+      return addr != null
+    }
   },
   data() {
     return {
@@ -36,6 +47,10 @@ export default defineComponent({
         (result: any) => {
           let marker = new window.H.map.Marker(result.items[0].position)
           this.map.addObject(marker)
+          this.$emit('addressSelected', {
+            title: result.items[0].title,
+            position: `${result.items[0].position.lat},${result.items[0].position.lng}`
+          })
           console.log(result)
         },
         //onError
@@ -62,7 +77,6 @@ export default defineComponent({
       this.map = map
 
       addEventListener('resize', () => map.getViewPort().resize())
-
       // add behavior control
       new H.mapevents.Behavior(new H.mapevents.MapEvents(map))
 
